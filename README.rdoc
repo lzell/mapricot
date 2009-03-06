@@ -27,7 +27,8 @@ Or a url:
 == Examples
 
 ==== Super Simple
-
+  require 'mapricot'
+  
   simple_xml = %(
     <user>
       <id>1</name>
@@ -52,7 +53,8 @@ Or a url:
 
 
 ==== A little more realistic
-
+  require 'mapricot'
+  
   xml = %(
     <user>
       <id>2</name>
