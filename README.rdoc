@@ -5,7 +5,7 @@ Makes working with XML stupid easy.  XML to object mapper with an interface simi
 
 == Install
 
-Do some stuff...
+sudo gem install lzell-mapricot
 
 == Usage
 
@@ -20,11 +20,9 @@ When you instantiate a Mapricot::Base object, you can pass it a string of xml:
   
   MapMe.new :xml => "<some_stuff>...</some_stuff>"
 
-Or you can pass it a url:
-  class MapMeToo < Mapricot::Base
-  end
+Or a url:
   
-  MapMeToo.new :url => "http://some_url"
+  MapMe.new :url => "http://some_url"
 
 == Examples
 
