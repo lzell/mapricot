@@ -14,6 +14,7 @@ module Mapricot
   # Use either a string of xml or a url to initialize
   class Base
     class << self
+      
       # @associations is used to initialize instance variables
       # creates a new HasOneAssociation and appends it to the @associations list
       def has_one(name, type = :string, opts = {})
@@ -22,6 +23,7 @@ module Mapricot
         associations << ass
         class_eval "attr_reader :#{name}", __FILE__, __LINE__
       end
+      
       # creates a new HasManyAssociation and appends it to the @associations list
       def has_many(name, type = :string, opts = {})
         ass = HasManyAssociation.new(name, type, opts)
@@ -29,13 +31,16 @@ module Mapricot
         associations << ass
         class_eval "attr_reader :#{name}", __FILE__, __LINE__
       end
+      
       def has_attribute(name)
         attributes << name
         class_eval "attr_reader :#{name}", __FILE__, __LINE__
       end
+      
       def associations
         @associations ||= []
       end
+      
       def attributes
         @attributes ||= []
       end
