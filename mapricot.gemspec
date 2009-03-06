@@ -25,5 +25,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rdoc_options = ["--main", "README.txt", "--inline-source", "--title", "Mapricot"]
   s.extra_rdoc_files = ["README.txt"]
+  s.add_dependency("hpricot")
 end
 
