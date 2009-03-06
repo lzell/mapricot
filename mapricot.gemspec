@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
 	s.description = "Makes working with XML stupid easy.  XML to object mapper with an interface similar to ActiveRecord associations."
   s.has_rdoc = true
   s.authors  = ["Lou Zell"]
-  s.files    = ["README.txt", 
+  s.files    = ["README.rdoc", 
       "History.txt",
       "License.txt",
       "mapricot.gemspec",
@@ -23,8 +23,8 @@ Gem::Specification.new do |s|
       "test/mapricot_spec.rb",
       "lib/mapricot.rb"]
   s.require_paths = ["lib"]
-  s.rdoc_options = ["--main", "README.txt", "--inline-source", "--title", "Mapricot"]
-  s.extra_rdoc_files = ["README.txt"]
+  s.rdoc_options = ["--main", "README.rdoc", "--inline-source", "--title", "Mapricot"]
+  s.extra_rdoc_files = ["README.rdoc"]
   s.add_dependency("hpricot")
 end
 
