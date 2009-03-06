@@ -108,9 +108,10 @@ Or a url:
   # => Skiing for 2 years
   # => Hiking for 3 years
   
+  
 == Credits
 
-All to why the luck stiff for Hpricot.
+Named after why the luck stiff's Hpricot, which made this possible.
 
 
 Copyright (c) 2009 Lou Zell, released under the MIT license
