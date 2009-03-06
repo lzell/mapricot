@@ -103,6 +103,7 @@ module Mapricot
       @value.is_a?(Array) ? @value.collect {|v| v.to_i} : @value.to_i
     end
     
+    # oh, forgot about this, need to add to readme
     def typecast_time
       if @value.is_a?(Array)
         @value.collect {|v| Time.parse(v) }
