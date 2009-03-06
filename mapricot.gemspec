@@ -2,7 +2,7 @@ require 'rubygems'
 
 Gem::Specification.new do |s|
   s.name     = "mapricot"
-  s.version  = "0.0.1"
+  s.version  = "0.0.2"
   s.date     = "2009-03-06"
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.summary  = "XML to object mapper"
@@ -25,6 +25,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rdoc_options = ["--main", "README.txt", "--inline-source", "--title", "Mapricot"]
   s.extra_rdoc_files = ["README.txt"]
-  s.add_dependency("hpricot")
+  s.add_dependency("hpricot", ">= 0.6")
 end
 
