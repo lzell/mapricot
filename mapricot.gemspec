@@ -26,3 +26,4 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--main", "README.txt", "--inline-source", "--title", "Mapricot"]
   s.extra_rdoc_files = ["README.txt"]
 end
+
