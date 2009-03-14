@@ -5,7 +5,7 @@ require 'test/unit'
 # -------------------------- Test Example 1 of README.txt ------------------ #
 SIMPLE_USER_XML = %(
   <user>
-    <id>1</name>
+    <id>1</id>
     <name>Bob</name>
     <pet>cat</pet>
     <pet>dog</pet>
@@ -25,9 +25,9 @@ class TestSimpleUser < Test::Unit::TestCase
   end
   
   def test_everything
-    assert_equal @simple_user.id,   1
-    assert_equal @simple_user.name, "Bob"
-    assert_equal @simple_user.pets, ["cat", "dog"]
+    assert_equal  1,               @simple_user.id
+    assert_equal  "Bob",           @simple_user.name
+    assert_equal  ["cat", "dog"],  @simple_user.pets
   end
 end
 # -------------------------------------------------------------------------- #

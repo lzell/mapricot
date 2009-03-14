@@ -1,5 +1,6 @@
 require '../lib/mapricot'
 
+
 xml = %(
 <response>
   <user id="32" name="Bob"></user>
