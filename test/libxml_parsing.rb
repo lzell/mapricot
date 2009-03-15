@@ -15,7 +15,8 @@ user = users.first
 puts "users if of class #{user.class}"
 puts user.to_s
 
-pets = doc.find('/user/pet')
+#pets = doc.find('/user/pet')
+pets = doc.find('//pet')
 puts pets.first
 pets.each do |pet|
   puts "pet is #{pet.content}"
@@ -30,6 +31,6 @@ puts users.first.attributes.to_h.empty?
 puts "--------------"
 xml = %(<user>Joe</user>)
 doc = LibXML::XML::Parser.string(xml).parse
-user = doc.find('/user')
+user = doc.find('//user')
 puts user.first.content
 

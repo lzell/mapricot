@@ -8,8 +8,9 @@ end
 
 
 module Mapricot
-  USE_LIBXML = false
-
+  @use_libxml = true
+  class << self; attr_accessor :use_libxml; end
+  
   # AbstractDoc should be able to find tags, get inner tag content. Find all tags (return an array)
   # I think I will also need AbstractNode
 
@@ -28,7 +29,7 @@ module Mapricot
     end
 
     def url=(url)
-      if USE_LIBXML
+      if Mapricot.use_libxml
         @udoc = LibXML::XML::Parser.file(url).parse
       else
         @udoc = Hpricot::XML(open(url))
@@ -36,7 +37,7 @@ module Mapricot
     end
 
     def string=(string)
-      if USE_LIBXML
+      if Mapricot.use_libxml
         @udoc = LibXML::XML::Parser.string(string).parse
       else
         @udoc = Hpricot::XML(string)
@@ -45,8 +46,8 @@ module Mapricot
 
 
     def find(tagname)
-      if USE_LIBXML
-        AbstractNodeList.new(@udoc.find("/#{tagname}"))
+      if Mapricot.use_libxml
+        AbstractNodeList.new(@udoc.find("//#{tagname}"))  # hmm...
       else
         AbstractNodeList.new(@udoc/tagname)
       end
@@ -78,6 +79,7 @@ module Mapricot
   
 
   class AbstractNode
+    attr_reader :unode
     # unode: unabstracted node
     def initialize(unode)
       @unode = unode
@@ -88,7 +90,7 @@ module Mapricot
     end
     
     def contents
-      if USE_LIBXML
+      if Mapricot.use_libxml
         @unode.content
       else
         @unode.inner_html

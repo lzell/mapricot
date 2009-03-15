@@ -72,8 +72,8 @@ module Mapricot
       # 3.  use association type to typecast the tags contents
       # 4.  assign this to object instance variable "@#{association.name}"
       @associations.each do |association|
-        tags = @doc.find(association.name)
-        association.set_value(tags.first.contents)
+        node_list = @doc.find(association.name)
+        association.set_value_from_node_list(node_list)
         instance_variable_set("@#{association.name}", association.value)
       end
     end
@@ -189,11 +189,6 @@ module Mapricot
       @namespace = nil
     end
   
-    def set_value(tag_contents)
-      self.value = tag_contents
-      typecast
-    end
-    
     private
     def typecast
       raise "association type is invalid" unless VALID_TYPES.include?(@type)
@@ -236,6 +231,18 @@ module Mapricot
   
   
   class HasOneAssociation < Association
+    
+    # pass a node list, depending on the type of association
+    def set_value_from_node_list(node_list)
+      if @type == :xml
+       @value = class_from_name.new(:xml => node_list.first.to_s)
+      else
+        @value = node_list.first.contents
+        typecast
+      end
+    end
+    
+    ## Deprecated .............
     # searches xml for tag name, sets the inner xml as association value and typecasts it
     def search(xml)
       # if tag_name option was passed, use it:
@@ -268,6 +275,7 @@ module Mapricot
       "#{@name}".singularize
     end
     
+    # Deprecated ...........
     # searches xml for all occurrences of self.singular_name, the inner xml from each tag is stored in an array and set as the association value
     # finally, each element in the array is typecast
     def search(xml)
