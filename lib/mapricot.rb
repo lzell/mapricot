@@ -234,11 +234,15 @@ module Mapricot
     
     # pass a node list, depending on the type of association
     def set_value_from_node_list(node_list)
-      if @type == :xml
-       @value = class_from_name.new(:xml => node_list.first.to_s)
+      if node_list.empty?
+        @value = nil
       else
-        @value = node_list.first.contents
-        typecast
+        if @type == :xml
+         @value = class_from_name.new(:xml => node_list.first.to_s)
+        else
+          @value = node_list.first.contents
+          typecast
+        end
       end
     end
     
