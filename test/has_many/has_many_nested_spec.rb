@@ -101,11 +101,16 @@ end
 
 
 describe "has many ids, parsing with hpricot" do 
-  before(:all) { Mapricot.use_libxml = false }
+  before(:all) { Mapricot.parser = :hpricot }
   it_should_behave_like HasManyNested
 end
 
 describe "has many id, parsing with libxml" do 
-  before(:all) { Mapricot.use_libxml = true }
+  before(:all) { Mapricot.parser = :libxml }
+  it_should_behave_like HasManyNested
+end
+
+describe "has many id, parsing with nokogiri" do 
+  before(:all) { Mapricot.parser = :nokogiri }
   it_should_behave_like HasManyNested
 end

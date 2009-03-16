@@ -1,15 +1,14 @@
 require 'open-uri'
+require 'rubygems'
+require 'hpricot'
+require 'libxml'
+require 'nokogiri'
 
-begin
-  %w(hpricot libxml active_support/inflector).each {|lib| require lib}
-rescue LoadError
-  %w(rubygems hpricot libxml active_support/inflector).each {|lib| require lib}
-end
 
 
 module Mapricot
-  @use_libxml = false
-  class << self; attr_accessor :use_libxml; end
+  @parser = :nokogiri
+  class << self; attr_accessor :parser; end
   
   # AbstractDoc should be able to find tags, get inner tag content. Find all tags (return an array)
   # I think I will also need AbstractNode
@@ -29,27 +28,34 @@ module Mapricot
     end
 
     def url=(url)
-      if Mapricot.use_libxml
+      if Mapricot.parser == :libxml
         @udoc = LibXML::XML::Parser.file(url).parse
-      else
+      elsif Mapricot.parser == :hpricot
         @udoc = Hpricot::XML(open(url))
+      elsif Mapricot.paser == :nokogiri
+        @udoc = Nokogiri::HTML(open(url))
       end
     end
 
     def string=(string)
-      if Mapricot.use_libxml
+      if Mapricot.parser == :libxml
         @udoc = LibXML::XML::Parser.string(string).parse
-      else
+      elsif Mapricot.parser == :hpricot
         @udoc = Hpricot::XML(string)
+      elsif Mapricot.parser == :nokogiri
+        @udoc = Nokogiri::XML(string)
       end
     end
 
 
     def find(tagname)
-      if Mapricot.use_libxml
+      if Mapricot.parser == :libxml
         AbstractNodeList.new(@udoc.find("//#{tagname}"))  # hmm...
-      else
+      elsif Mapricot.parser == :hpricot
         AbstractNodeList.new(@udoc/tagname)
+      elsif Mapricot.parser == :nokogiri
+        AbstractNodeList.new(@udoc.search(tagname))
+        # AbstractNodeList.new(@udoc.xpath("//#{tagname}"))
       end
     end
     
@@ -94,11 +100,17 @@ module Mapricot
     end
     
     def attributes
-      @unode.attributes
+      if Mapricot.parser != :nokogiri
+        @unode.attributes
+      else
+        atts = {}
+        @unode.attributes.each {|k,v| atts[k] = v.value}
+        atts
+      end
     end
     
     def contents
-      if Mapricot.use_libxml
+      if Mapricot.parser == :libxml || Mapricot.parser == :nokogiri
         @unode.content
       else
         @unode.inner_html

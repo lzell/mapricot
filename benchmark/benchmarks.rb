@@ -114,14 +114,19 @@ lfm.events.each do |event|
   puts event.venue.name
 end
 
-n = 50
+n = 200
 Benchmark.bm do |x|
   x.report {
-    Mapricot.use_libxml = false;
+    Mapricot.parser = :hpricot;
     n.times { lfm = Response.new(:xml => last_fm_example) }
   }
   x.report {
-    Mapricot.use_libxml = true; 
+    Mapricot.parser = :libxml; 
     n.times { lfm = Response.new(:xml => last_fm_example) }
   }
+  x.report {
+    Mapricot.parser = :nokogiri; 
+    n.times { lfm = Response.new(:xml => last_fm_example) }
+  }
+  
 end

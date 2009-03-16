@@ -18,7 +18,7 @@ end
 
 share_as :HasAttribute do 
 
-  describe "response with location city, state, and code" do 
+  describe "; response with location city, state, and code" do 
   
     before(:all) do 
       @response = Response.new(:xml => %(
@@ -42,11 +42,16 @@ end
 
 
 describe "has attribute, parsing with hpricot" do 
-  before(:all) { Mapricot.use_libxml = false }
+  before(:all) { Mapricot.parser = :hpricot }
   it_should_behave_like HasAttribute
 end
 
 describe "has many id, parsing with libxml" do 
-  before(:all) { Mapricot.use_libxml = true }
+  before(:all) { Mapricot.parser = :libxml }
+  it_should_behave_like HasAttribute
+end
+
+describe "has many id, parsing with nokogiri" do 
+  before(:all) { Mapricot.parser = :nokogiri }
   it_should_behave_like HasAttribute
 end

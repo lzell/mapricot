@@ -13,9 +13,9 @@ share_examples_for "an abstract xml parser" do
     AbstractDoc.should respond_to(:from_url)
   end
   
-  it "should be using libxml or hpricot" do
-    puts "using #{Mapricot.use_libxml ? 'libxml' : 'hpricot'}..."
-    [true, false].include?(Mapricot.use_libxml).should be_true
+  it "should be using libxml or hpricot or nokogiri" do
+    puts "using #{Mapricot.parser}..."
+    [:libxml, :hpricot, :nokogiri].include?(Mapricot.parser).should be_true
   end
 
   describe "creating a document from a string of xml" do 
@@ -63,11 +63,17 @@ share_examples_for "an abstract xml parser" do
 end
 
 describe "AbstractDoc using libxml" do 
-  before(:all) { Mapricot.use_libxml = true }
+  before(:all) { Mapricot.parser = :libxml }
   it_should_behave_like "an abstract xml parser"
 end
 
 describe "AbstractDoc useing hpricot" do 
-  before(:all) { Mapricot.use_libxml = false }
+  before(:all) { Mapricot.parser = :hpricot }
   it_should_behave_like "an abstract xml parser"
 end
+
+describe "AbstractDoc useing hpricot" do 
+  before(:all) { Mapricot.parser = :nokogiri }
+  it_should_behave_like "an abstract xml parser"
+end
+

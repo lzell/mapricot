@@ -82,11 +82,16 @@ end
 
 
 describe "has one nested, using hpricot" do 
-  before(:all) { Mapricot.use_libxml = false }
+  before(:all) { Mapricot.parser = :hpricot }
   it_should_behave_like HasOneNested
 end
 
 describe "nested, using libxml" do 
-  before(:all) { Mapricot.use_libxml = true }
+  before(:all) { Mapricot.parser = :libxml }
+  it_should_behave_like HasOneNested
+end
+
+describe "nested, using libxml" do 
+  before(:all) { Mapricot.parser = :nokogiri }
   it_should_behave_like HasOneNested
 end
