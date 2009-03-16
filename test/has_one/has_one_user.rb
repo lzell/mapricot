@@ -1,7 +1,6 @@
 require 'rubygems'
-require '../../lib/mapricot'
-require '../../lib/abstract_doc'
 require 'spec'
+require '../../lib/mapricot'
 
 include Mapricot
 

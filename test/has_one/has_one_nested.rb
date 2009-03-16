@@ -1,7 +1,6 @@
 require 'rubygems'
-require '../../lib/mapricot'
-require '../../lib/abstract_doc'
 require 'spec'
+require '../../lib/mapricot'
 
 include Mapricot
 
@@ -55,7 +54,8 @@ share_as :HasOneNested do
           @user = @feed.user
         end
 
-        it "should be a Mapricot::Base class" do
+        it "should be a User, a subclass of Mapricot::Base" do
+          @user.should be_a(User)
           @user.should be_a(Mapricot::Base)
         end
 

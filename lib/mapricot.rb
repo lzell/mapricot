@@ -6,6 +6,8 @@ rescue LoadError
   %w(rubygems hpricot libxml active_support/inflector).each {|lib| require lib}
 end
 
+require 'abstract_doc'
+
 # Todo: modularize anything using hpricot/libxml; i.e. the actual parsing
 
 module Mapricot
@@ -72,7 +74,7 @@ module Mapricot
       # 3.  use association type to typecast the tags contents
       # 4.  assign this to object instance variable "@#{association.name}"
       @associations.each do |association|
-        node_list = @doc.find(association.name)
+        node_list = @doc.find(association.tag_name)
         association.set_value_from_node_list(node_list)
         instance_variable_set("@#{association.name}", association.value)
       end
@@ -183,10 +185,15 @@ module Mapricot
 
     attr_accessor :name, :type, :value
     attr_accessor :namespace
+    
     def initialize(name, type, opts = {})
       raise "Don't instantiate me" if abstract_class?
       @name, @type, @opts = name, type, opts
       @namespace = nil
+    end
+
+    def tag_name
+      @opts[:tag_name] || singular_name
     end
   
     private
@@ -227,6 +234,10 @@ module Mapricot
         singular_name.classify.constantize
       end
     end
+    
+    def set_value_from_node_list(node_list)
+    end
+    
   end
   
   
@@ -248,65 +259,77 @@ module Mapricot
     
     ## Deprecated .............
     # searches xml for tag name, sets the inner xml as association value and typecasts it
-    def search(xml)
-      # if tag_name option was passed, use it:
-      if USE_LIBXML
-        element = xml.find("/#{ @opts[:tag_name] || @name }").first  # class LibXML::XML::Node
-        # puts element.inspect
-      else
-        element = (xml/"#{ @opts[:tag_name] || @name }").first      # class Hpricot::Elements
-      end
-      if element
-        if @type == :xml
-          @value = class_from_name.new(:xml => element.to_s)    # we want to include the tag, not just the inner_html
-        else
-          if USE_LIBXML
-            @value = element.content
-          else
-            @value = element.inner_html
-          end
-        end
-        self.typecast
-      end
-    end
+    # def search(xml)
+    #   # if tag_name option was passed, use it:
+    #   if USE_LIBXML
+    #     element = xml.find("/#{ @opts[:tag_name] || @name }").first  # class LibXML::XML::Node
+    #     # puts element.inspect
+    #   else
+    #     element = (xml/"#{ @opts[:tag_name] || @name }").first      # class Hpricot::Elements
+    #   end
+    #   if element
+    #     if @type == :xml
+    #       @value = class_from_name.new(:xml => element.to_s)    # we want to include the tag, not just the inner_html
+    #     else
+    #       if USE_LIBXML
+    #         @value = element.content
+    #       else
+    #         @value = element.inner_html
+    #       end
+    #     end
+    #     self.typecast
+    #   end
+    # end
   end
   
   
   class HasManyAssociation < Association
 
     def singular_name
-      # @name.to_s[0..-2]
       "#{@name}".singularize
     end
     
+    
+    def set_value_from_node_list(node_list)
+      @value = []
+      node_list.each do |node|
+        if @type == :xml
+          @value << class_from_name.new(:xml => node.to_s)
+        else
+          @value << node.contents
+        end
+      end
+      typecast
+    end
+
     # Deprecated ...........
     # searches xml for all occurrences of self.singular_name, the inner xml from each tag is stored in an array and set as the association value
     # finally, each element in the array is typecast
-    def search(xml)
-      @value = []
-      # DRY THIS UP
-      if USE_LIBXML
-        # puts "---------------"
-        # puts xml.to_s
-        # puts xml.find("/#{@opts[:tag_name] || self.singular_name}").each {|tag| puts tag.inspect}
-        # puts "^^^^^^^^^^^^^^^^^^^^^^^"
-        xml.find("/#{@opts[:tag_name] || self.singular_name}").each do |tag|
-          if @type == :xml
-            @value << class_from_name.new(:xml => tag.to_s)
-          else
-            @value << tag.content
-          end
-        end
-      else
-        (xml/"#{@opts[:tag_name] || self.singular_name}").each do |tag|
-          if @type == :xml
-            @value << class_from_name.new(:xml => tag.to_s)  # a bit of recursion if the inner xml is more xml
-          else
-            @value << tag.inner_html   # in the case of a string, integer, etc.
-          end
-        end
-      end
-    end
+    # def search(xml)
+    #   @value = []
+    #   # DRY THIS UP
+    #   if USE_LIBXML
+    #     # puts "---------------"
+    #     # puts xml.to_s
+    #     # puts xml.find("/#{@opts[:tag_name] || self.singular_name}").each {|tag| puts tag.inspect}
+    #     # puts "^^^^^^^^^^^^^^^^^^^^^^^"
+    #     xml.find("/#{@opts[:tag_name] || self.singular_name}").each do |tag|
+    #       if @type == :xml
+    #         @value << class_from_name.new(:xml => tag.to_s)
+    #       else
+    #         @value << tag.content
+    #       end
+    #     end
+    #   else
+    #     (xml/"#{@opts[:tag_name] || self.singular_name}").each do |tag|
+    #       if @type == :xml
+    #         @value << class_from_name.new(:xml => tag.to_s)  # a bit of recursion if the inner xml is more xml
+    #       else
+    #         @value << tag.inner_html   # in the case of a string, integer, etc.
+    #       end
+    #     end
+    #   end
+    # end
     
   end
 end

@@ -1,13 +1,12 @@
 # --------------------------------------------------------
-#     Look at mapricot_tests.rb first!
+#     Look at mapricot_readme_tests.rb first!
 # ---------------------------------------------------------
 
 require '../lib/mapricot'
 require 'spec'
 
 # Using a Facebook example:
-XML = %(
-<?xml version="1.0" encoding="UTF-8"?>
+XML = %(<?xml version="1.0" encoding="UTF-8"?>
   <users_getInfo_response xmlns="http://api.facebook.com/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://api.facebook.com/1.0/ http://api.facebook.com/1.0/facebook.xsd" list="true">
     <user>
       <uid>8055</uid>
@@ -31,7 +30,7 @@ XML = %(
         <zip>94303</zip>
       </current_location> 
     </user>
-  </users_getInfo_reponse>
+  </users_getInfo_response>
 )
 
 

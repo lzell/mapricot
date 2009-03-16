@@ -8,7 +8,7 @@ end
 
 
 module Mapricot
-  @use_libxml = false
+  @use_libxml = true
   class << self; attr_accessor :use_libxml; end
   
   # AbstractDoc should be able to find tags, get inner tag content. Find all tags (return an array)
