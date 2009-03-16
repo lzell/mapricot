@@ -1,5 +1,5 @@
-require '../lib/mapricot'
 require 'test/unit'
+require File.expand_path(File.dirname(__FILE__) + "/../lib/mapricot")
 
 
 class FeedA < Mapricot::Base

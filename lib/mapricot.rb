@@ -1,10 +1,12 @@
-begin
-  %w(hpricot libxml active_support/inflector).each {|lib| require lib}
-rescue LoadError
-  %w(rubygems hpricot libxml active_support/inflector).each {|lib| require lib}
-end
+require 'rubygems'
+require 'active_support/inflector'
+require File.expand_path(File.dirname(__FILE__) + "/abstract_doc")
 
-require 'abstract_doc'
+# begin
+#   %w(hpricot libxml active_support/inflector).each {|lib| require lib}
+# rescue LoadError
+#   %w(rubygems hpricot libxml active_support/inflector).each {|lib| require lib}
+# end
 
 module Mapricot
   
@@ -28,7 +30,9 @@ module Mapricot
       # creates a new HasManyAssociation and appends it to the @association_list
       def has_many(name, type = :string, opts = {})
         association = HasManyAssociation.new(name, type, opts)
-        self.name.match(/::/) && association.namespace = self.name.match(/(.*)::[^:]+$/)[1]
+        if self.name.match(/::/)
+          association.namespace = self.name.match(/(.*)::[^:]+$/)[1]
+        end
         association_list << association
         class_eval "attr_reader :#{name}", __FILE__, __LINE__
       end

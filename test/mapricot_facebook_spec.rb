@@ -1,13 +1,18 @@
 # --------------------------------------------------------
-#     Look at mapricot_readme_tests.rb first!
+#     Look at test_mapricot_readme.rb first!
 # ---------------------------------------------------------
-
-require '../lib/mapricot'
+require 'rubygems'
 require 'spec'
+require File.expand_path(File.dirname(__FILE__) + "/../lib/mapricot")
 
-# Using a Facebook example:
-XML = %(<?xml version="1.0" encoding="UTF-8"?>
-  <users_getInfo_response xmlns="http://api.facebook.com/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://api.facebook.com/1.0/ http://api.facebook.com/1.0/facebook.xsd" list="true">
+# Using a Facebook example
+# This xml is taken straight from here: http://wiki.developers.facebook.com/index.php/Users.getInfo
+# Note, libxml does not like this for some reason:
+# <users_getInfo_response xmlns="http://api.facebook.com/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://api.facebook.com/1.0/ http://api.facebook.com/1.0/facebook.xsd" list="true">
+# So 'xmlns="http://api.facebook.com/1.0/"' has been stripped from tag
+# Because of this, for real requests we will have to use Hpricot only
+FACEBOOK_XML = %(<?xml version="1.0" encoding="UTF-8"?>
+  <users_getInfo_response xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://api.facebook.com/1.0/ http://api.facebook.com/1.0/facebook.xsd" list="true">
     <user>
       <uid>8055</uid>
       <about_me>This field perpetuates the glorification of the ego. Also, it has a character limit.</about_me>
@@ -68,54 +73,37 @@ end
 
 
 describe UsersGetInfoResponse do 
-  before(:all) { @response = UsersGetInfoResponse.new(:xml => XML) }
   
-  it "should respond to users" do 
-    @response.should respond_to(:users)
-  end
+  before(:all) { @response = UsersGetInfoResponse.new(:xml => FACEBOOK_XML) }
   
-  it "should return an array of size 1 when sent users" do 
+  it "should have one user" do 
     @response.users.class.should equal(Array)
     @response.users.size.should equal(1)
   end
-end
-
-describe "response.users.first" do 
-  before(:all) do 
-    response = UsersGetInfoResponse.new(:xml => XML)
-    @first_user = response.users.first
-  end
   
-  it "should be of class User" do
-    @first_user.class.should equal(User)
-  end
   
-  it "should respond to activities" do 
-    @first_user.should respond_to(:activities)
-    @first_user.activities.should == "Here: facebook, etc. There: Glee Club, a capella, teaching."
-  end
-  
-  it "should respond to current_location" do 
-    @first_user.should respond_to(:current_location)
-  end
-end
-
-
-describe "response.users.first.current_location" do 
-  before(:all) do 
-    response = UsersGetInfoResponse.new(:xml => XML)
-    @current_location = response.users.first.current_location
-  end
-  
-  it "should have class CurrentLocation" do 
-    @current_location.class.should equal(CurrentLocation)
-  end
-
-  it "should respond to city, state, country, and zip" do 
-    @current_location.city.should == 'Palo Alto'
-    @current_location.state.should == 'CA'
-    @current_location.country.should == 'United States'
-    @current_location.zip.should == 94303
+  describe "the user" do 
+    
+    before(:all) { @user = @response.users.first }
+    
+    it "should have a uid of 8055" do 
+      @user.uid.should == 8055
+    end
+    
+    it "should do some activities" do 
+      @user.activities.should == "Here: facebook, etc. There: Glee Club, a capella, teaching."
+    end
+    
+    it "should have a current location" do 
+      @user.current_location.city.should == "Palo Alto"
+      @user.current_location.state.should == "CA"
+      @user.current_location.country.should == "United States"
+      @user.current_location.zip.should == 94303
+    end
+    
+    it "should have a Facebook Developers affiliation" do 
+      @user.affiliation_list.affiliations.first.name.should == "Facebook Developers"    # remove redundancy
+      @user.affiliation_list.affiliations.first.nid.should == 50453093
+    end
   end
 end
-

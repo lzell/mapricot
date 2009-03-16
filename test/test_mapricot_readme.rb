@@ -1,5 +1,5 @@
-require '../lib/mapricot'
 require 'test/unit'
+require File.expand_path(File.dirname(__FILE__) + "/../lib/mapricot")
 
 
 # -------------------------- Test Example 1 of README.txt ------------------ #
