@@ -39,4 +39,3 @@ Gem::Specification.new do |s|
   s.add_dependency("nokogiri")
   s.add_dependency("libxml-ruby")
 end
-
