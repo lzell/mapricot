@@ -1,13 +1,13 @@
 require 'open-uri'
 require 'rubygems'
+# gem 'hpricot', '=0.6.164'
 require 'hpricot'
 require 'libxml'
 require 'nokogiri'
 
 
-
 module Mapricot
-  @parser = :nokogiri
+  @parser = :hpricot
   class << self; attr_accessor :parser; end
   
   # AbstractDoc should be able to find tags, get inner tag content. Find all tags (return an array)
@@ -52,7 +52,8 @@ module Mapricot
       if Mapricot.parser == :libxml
         AbstractNodeList.new(@udoc.find("//#{tagname}"))  # hmm...
       elsif Mapricot.parser == :hpricot
-        AbstractNodeList.new(@udoc/tagname)
+        # AbstractNodeList.new(@udoc/tagname)
+        AbstractNodeList.new(@udoc/"//#{tagname}")
       elsif Mapricot.parser == :nokogiri
         AbstractNodeList.new(@udoc.search(tagname))
         # AbstractNodeList.new(@udoc.xpath("//#{tagname}"))

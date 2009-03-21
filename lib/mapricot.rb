@@ -2,12 +2,6 @@ require 'rubygems'
 require 'active_support/inflector'
 require File.expand_path(File.dirname(__FILE__) + "/abstract_doc")
 
-# begin
-#   %w(hpricot libxml active_support/inflector).each {|lib| require lib}
-# rescue LoadError
-#   %w(rubygems hpricot libxml active_support/inflector).each {|lib| require lib}
-# end
-
 module Mapricot
   
   

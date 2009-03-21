@@ -107,12 +107,7 @@ class Venue < Mapricot::Base
 end
 
 lfm = Response.new(:xml => last_fm_example)
-lfm.events.each do |event|
-  puts "-------------------------------"
-  puts event.title
-  puts event.artist_group.artists.inspect
-  puts event.venue.name
-end
+
 
 n = 200
 Benchmark.bm do |x|
