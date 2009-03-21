@@ -1,8 +1,3 @@
-# --------------------------------------------------------
-#     Look at test_mapricot_readme.rb first!
-# ---------------------------------------------------------
-require 'rubygems'
-require 'spec'
 require File.expand_path(File.dirname(__FILE__) + "/../lib/mapricot")
 
 # Using a Facebook example
@@ -10,7 +5,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../lib/mapricot")
 # Note, libxml does not like this for some reason:
 # <users_getInfo_response xmlns="http://api.facebook.com/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://api.facebook.com/1.0/ http://api.facebook.com/1.0/facebook.xsd" list="true">
 # So 'xmlns="http://api.facebook.com/1.0/"' has been stripped from tag
-# Because of this, for real requests we will have to use Hpricot only
+# Because of this, for real requests we will have to use hpricot or nokogiri
 FACEBOOK_XML = %(<?xml version="1.0" encoding="UTF-8"?>
   <users_getInfo_response xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://api.facebook.com/1.0/ http://api.facebook.com/1.0/facebook.xsd" list="true">
     <user>
@@ -72,38 +67,19 @@ class CurrentLocation < Mapricot::Base
 end
 
 
-describe UsersGetInfoResponse do 
-  
-  before(:all) { @response = UsersGetInfoResponse.new(:xml => FACEBOOK_XML) }
-  
-  it "should have one user" do 
-    @response.users.class.should equal(Array)
-    @response.users.size.should equal(1)
-  end
-  
-  
-  describe "the user" do 
-    
-    before(:all) { @user = @response.users.first }
-    
-    it "should have a uid of 8055" do 
-      @user.uid.should == 8055
-    end
-    
-    it "should do some activities" do 
-      @user.activities.should == "Here: facebook, etc. There: Glee Club, a capella, teaching."
-    end
-    
-    it "should have a current location" do 
-      @user.current_location.city.should == "Palo Alto"
-      @user.current_location.state.should == "CA"
-      @user.current_location.country.should == "United States"
-      @user.current_location.zip.should == 94303
-    end
-    
-    it "should have a Facebook Developers affiliation" do 
-      @user.affiliation_list.affiliations.first.name.should == "Facebook Developers"    # remove redundancy
-      @user.affiliation_list.affiliations.first.nid.should == 50453093
-    end
-  end
-end
+response = UsersGetInfoResponse.new(:xml => FACEBOOK_XML)
+puts response.users.class # => Array
+puts response.users.size # => 1
+
+user = response.users.first
+
+puts user.uid # => 8055
+puts user.activities # => "Here: facebook, etc. There: Glee Club, a capella, teaching."
+puts user.current_location.city # => "Palo Alto"
+puts user.current_location.state # => "CA"
+puts user.current_location.country # => "United States"
+puts user.current_location.zip  # => 94303
+
+# need to remove redundancy here:
+puts user.affiliation_list.affiliations.first.name   # => "Facebook Developers"
+puts user.affiliation_list.affiliations.first.nid   # => 50453093  

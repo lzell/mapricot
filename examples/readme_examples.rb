@@ -1,4 +1,4 @@
-require '../lib/mapricot'
+require File.expand_path(File.dirname(__FILE__) + "/../lib/mapricot")
 
 # super simple
 simple_xml = %(
