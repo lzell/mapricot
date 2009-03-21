@@ -1,4 +1,4 @@
-require '../lib/mapricot'
+require File.expand_path(File.dirname(__FILE__) + "/../lib/mapricot")
 require 'benchmark'
 
 last_fm_example = %(<?xml version="1.0" encoding="utf-8"?>
