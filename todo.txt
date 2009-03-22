@@ -1,0 +1,1 @@
+change the interface, the whole :xml => xml thing has to go.  Instead, determine whether it is a string or url
