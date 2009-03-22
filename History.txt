@@ -13,3 +13,7 @@ Mapricot.parser = :libxml
 Mapricot.parser = :hpricot
 
 Hpricot will be used by default
+
+== 0.0.3 2009-03-22
+
+Can parse from url with Nokogiri
