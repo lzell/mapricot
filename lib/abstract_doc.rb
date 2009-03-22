@@ -32,7 +32,7 @@ module Mapricot
         @udoc = LibXML::XML::Parser.file(url).parse
       elsif Mapricot.parser == :hpricot
         @udoc = Hpricot::XML(open(url))
-      elsif Mapricot.paser == :nokogiri
+      elsif Mapricot.parser == :nokogiri
         @udoc = Nokogiri::HTML(open(url))
       end
     end
