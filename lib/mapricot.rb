@@ -3,7 +3,7 @@ require 'active_support/inflector'
 require File.expand_path(File.dirname(__FILE__) + "/abstract_doc")
 
 module Mapricot
-  VERSION = "0.0.2"
+  VERSION = "0.0.3"
   
   # Inherit from base, e.g. class Animal < Mapricot::Base
   # Use either a string of xml or a url to initialize
