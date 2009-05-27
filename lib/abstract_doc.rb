@@ -76,7 +76,7 @@ module Mapricot
     end
 
     def [](i)
-      @unode_list[i]
+      AbstractNode.new(@unode_list[i])
     end
     
     def first
