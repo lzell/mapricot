@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name     = "mapricot"
-  s.version  = "0.0.3.8"
+  s.version  = "0.0.4"
   s.date     = "2009-05-27"
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.summary  = "XML to object mapper"

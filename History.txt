@@ -17,3 +17,7 @@ Hpricot will be used by default
 == 0.0.3 2009-03-22
 
 Can parse from url with Nokogiri
+
+== 0.0.4 2009-05-27
+
+Ditched rspec, now fully tested with test unit

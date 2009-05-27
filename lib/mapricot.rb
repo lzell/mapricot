@@ -2,7 +2,7 @@ require 'rubygems'
 require 'active_support/inflector'
 
 module Mapricot
-  VERSION = "0.0.3.2"
+  VERSION = "0.0.4"
 end
 
 path = File.expand_path(File.join(File.dirname(__FILE__), 'mapricot'))
