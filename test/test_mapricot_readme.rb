@@ -1,17 +1,8 @@
 require 'test/unit'
-require File.expand_path(File.dirname(__FILE__) + "/../lib/mapricot")
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'mapricot'))
 
 
 # -------------------------- Test Example 1 of README.txt ------------------ #
-SIMPLE_USER_XML = %(
-  <user>
-    <id>1</id>
-    <name>Bob</name>
-    <pet>cat</pet>
-    <pet>dog</pet>
-  </user>
-)
-
 class SimpleUser < Mapricot::Base
   has_one   :id,    :integer
   has_one   :name,  :string
@@ -21,13 +12,22 @@ end
 
 class TestSimpleUser < Test::Unit::TestCase
   def setup
-    @simple_user = SimpleUser.new(:xml => SIMPLE_USER_XML)
+    xml = %(
+      <user>
+        <id>1</id>
+        <name>Bob</name>
+        <pet>cat</pet>
+        <pet>dog</pet>
+      </user>
+    )
+    
+    @user = SimpleUser.new(:xml => xml)
   end
   
-  def test_everything
-    assert_equal  1,               @simple_user.id
-    assert_equal  "Bob",           @simple_user.name
-    assert_equal  ["cat", "dog"],  @simple_user.pets
+  def test_mapping
+    assert_equal  1,               @user.id
+    assert_equal  "Bob",           @user.name
+    assert_equal  ["cat", "dog"],  @user.pets
   end
 end
 # -------------------------------------------------------------------------- #
@@ -37,26 +37,6 @@ end
 
 
 # -------------------------- Test Example 2 of README.txt ------------------ #
-USER_XML = %(
-  <user>
-    <id>2</id>
-    <name>Sally</name>
-    <location code="ny123">
-      <city>New York</city>
-      <state>NY</state>
-    </location>
-    <hobby>
-      <description>Skiing</description>
-      <number_of_years>2</number_of_years>
-    </hobby>
-    <hobby>
-      <description>Hiking</description>
-      <number_of_years>3</number_of_years>
-    </hobby>
-  </user>
-)
-
-
 class User < Mapricot::Base
   has_one   :id,        :integer
   has_one   :name       # Tag type will default to :string
@@ -78,7 +58,26 @@ end
 
 class TestUser < Test::Unit::TestCase
   def setup
-    @user = User.new(:xml => USER_XML)
+    xml = %(
+      <user>
+        <id>2</id>
+        <name>Sally</name>
+        <location code="ny123">
+          <city>New York</city>
+          <state>NY</state>
+        </location>
+        <hobby>
+          <description>Skiing</description>
+          <number_of_years>2</number_of_years>
+        </hobby>
+        <hobby>
+          <description>Hiking</description>
+          <number_of_years>3</number_of_years>
+        </hobby>
+      </user>
+    )
+    
+    @user = User.new(:xml => xml)
   end
   
   def test_id_and_name
@@ -87,15 +86,12 @@ class TestUser < Test::Unit::TestCase
   end
   
   def test_location
-    assert        @user.location.is_a?(Location)
     assert_equal  @user.location.city,   "New York"
     assert_equal  @user.location.state,  "NY"
     assert_equal  @user.location.code,   "ny123"
   end
   
   def test_hobbies
-    assert        @user.hobbies.is_a?(Array)
-    assert_equal  @user.hobbies.size,                2
     assert_equal  @user.hobbies[0].description,      "Skiing"
     assert_equal  @user.hobbies[0].number_of_years,  2
     assert_equal  @user.hobbies[1].description,      "Hiking"
@@ -103,7 +99,7 @@ class TestUser < Test::Unit::TestCase
   end
   
   def test_pets
-    assert(@user.pets.empty?) # Sally has no pets
+    assert  @user.pets.empty?  # Sally has no pets
   end
 end  
 # -------------------------------------------------------------------------- #

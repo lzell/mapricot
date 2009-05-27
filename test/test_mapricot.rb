@@ -1,6 +1,9 @@
 require 'test/unit'
-require File.expand_path(File.dirname(__FILE__) + "/../lib/mapricot")
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'mapricot'))
 
+# !!!!!!!!!!!!!!!!!!
+# Please look at test_mapricot_readme.rb first!!
+# !!!!!!!!!!!!!!!!!!
 
 class FeedA < Mapricot::Base
   has_one :bar
