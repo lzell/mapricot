@@ -1,3 +1,4 @@
+# Usage: ruby suite.rb
 path = File.expand_path(File.dirname(__FILE__))
 
 spec_glob = File.join(path, "**", "*_spec.rb")
