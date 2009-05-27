@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'spec'
-require File.expand_path(File.dirname(__FILE__) + "/../lib/abstract_doc")
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'mapricot'))
 
 
 include Mapricot
