@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name     = "mapricot"
-  s.version  = "0.0.3.2"
-  s.date     = "2009-03-17"
+  s.version  = "0.0.3.8"
+  s.date     = "2009-05-27"
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.summary  = "XML to object mapper"
   s.email    = "lzell11@gmail.com"
@@ -13,24 +13,26 @@ Gem::Specification.new do |s|
       "History.txt",
       "License.txt",
       "mapricot.gemspec",
+      "examples/facebook_api.rb",
       "examples/lastfm_api.rb",
       "examples/lastfm_api_no_request.rb",
-      "examples/facebook_api.rb",
       "examples/natural_inputs.rb",
       "examples/readme_examples.rb",
       "examples/xml_with_attributes.rb",
       "test/suite.rb",
-      "test/abstract_doc_spec.rb",
+      "test/test_abstract_doc.rb",
       "test/test_mapricot.rb",
       "test/test_mapricot_readme.rb",
-      "test/has_attribute/has_attribute_spec.rb",
-      "test/has_many/has_many_ids_spec.rb",
-      "test/has_many/has_many_nested_spec.rb",
-      "test/has_one/has_one_id_spec.rb",
-      "test/has_one/has_one_user_spec.rb",
-      "test/has_one/has_one_nested_spec.rb",
+      "test/has_attribute/test_has_attribute.rb",
+      "test/has_many/test_has_many_ids.rb",
+      "test/has_many/test_has_many_nested.rb",
+      "test/has_one/test_has_one_id.rb",
+      "test/has_one/test_has_one_nested.rb",
       "lib/mapricot.rb",
-      "lib/abstract_doc.rb",
+      "lib/mapricot/abstract_doc.rb",
+      "lib/mapricot/associations.rb",
+      "lib/mapricot/attribute.rb",
+      "lib/mapricot/base.rb",
       "benchmark/benchmarks.rb"]
   s.require_paths = ["lib"]
   s.rdoc_options = ["--main", "README.rdoc", "--title", "Mapricot"]
