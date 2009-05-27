@@ -2,6 +2,8 @@
 # ruby suite.rb
 # OR
 # ruby suite.rb rg
+# ^^^ that one is for color, and requires the redgreen gem
+
 path = File.expand_path(File.dirname(__FILE__))
 
 test_glob = File.join(path, "**", "test_*.rb")
