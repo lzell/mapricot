@@ -16,6 +16,7 @@ end
 class TestResponse < Test::Unit::TestCase
   
   def setup
+    @parsers = [:hpricot, :nokogiri, :libxml]
     @xml = %(
       <response>
         <location code='nyc' id='100'>
@@ -26,27 +27,15 @@ class TestResponse < Test::Unit::TestCase
     )
   end
   
-  def perform_tests
-    response = Response.new(:xml => @xml)
-    assert_equal  "New York",     response.location.city
-    assert_equal  "NY",           response.location.state
-    assert_equal  "nyc",          response.location.code
-    assert_equal  100,            response.location.id
-  end
-  
-  def test_response_using_hpricot
-    Mapricot.parser = :hpricot
-    perform_tests
-  end
-  
-  def test_response_using_libxml
-    Mapricot.parser = :libxml
-    perform_tests
-  end
-  
-  def test_response_using_nokogiri
-    Mapricot.parser = :nokogiri
-    perform_tests
+  def test_response
+    @parsers.each do |parser|
+      Mapricot.parser = parser
+      response = Response.new(:xml => @xml)
+      assert_equal  "New York",     response.location.city
+      assert_equal  "NY",           response.location.state
+      assert_equal  "nyc",          response.location.code
+      assert_equal  100,            response.location.id
+    end
   end
   
 end
