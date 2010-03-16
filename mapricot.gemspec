@@ -16,7 +16,6 @@ Gem::Specification.new do |s|
       "examples/facebook_api.rb",
       "examples/lastfm_api.rb",
       "examples/lastfm_api_no_request.rb",
-      "examples/natural_inputs.rb",
       "examples/readme_examples.rb",
       "examples/xml_with_attributes.rb",
       "test/suite.rb",
