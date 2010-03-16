@@ -1,6 +1,4 @@
 require 'open-uri'
-require 'rubygems'
-# gem 'hpricot', '=0.6.164'
 require 'hpricot'
 require 'libxml'
 require 'nokogiri'

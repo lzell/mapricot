@@ -8,6 +8,7 @@
 # Response.new(:xml => "some string of xml")
 
 # If you do not have an API key, see examples/lastfm_api_no_request.rb
+require 'rubygems'
 require File.expand_path(File.dirname(__FILE__) + "/../lib/mapricot")
 
 class Response < Mapricot::Base

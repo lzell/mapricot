@@ -111,15 +111,15 @@ lfm = Response.new(:xml => last_fm_example)
 
 n = 200
 Benchmark.bm do |x|
-  x.report {
+  x.report("hpricot") {
     Mapricot.parser = :hpricot;
     n.times { lfm = Response.new(:xml => last_fm_example) }
   }
-  x.report {
+  x.report("libxml") {
     Mapricot.parser = :libxml; 
     n.times { lfm = Response.new(:xml => last_fm_example) }
   }
-  x.report {
+  x.report("nokogiri") {
     Mapricot.parser = :nokogiri; 
     n.times { lfm = Response.new(:xml => last_fm_example) }
   }
