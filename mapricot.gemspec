@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.summary  = "XML to object mapper"
   s.email    = "lzell11@gmail.com"
   s.homepage = ""
-	s.description = "Makes working with XML stupid easy.  XML to object mapper with an interface similar to ActiveRecord associations."
+	s.description = "XML to object mapper with an interface similar to ActiveRecord associations."
   s.has_rdoc = true
   s.authors  = ["Lou Zell"]
   s.files    = ["README.rdoc", 

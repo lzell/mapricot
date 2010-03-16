@@ -1,30 +1,14 @@
 == Mapricot
 
-Makes working with XML stupid easy.  XML to object mapper with an interface similar to ActiveRecord associations.
+XML to object mapper with an interface similar to ActiveRecord associations.
 
 
 == Install
 
-sudo gem install lzell-mapricot
+sudo gem install mapricot
 
-== Usage
 
-Your classes should inherit from Mapricot::Base, which provides the class methods 
-* has_one(name, type, opts = {})
-* has_many(name, type, opts = {})
-* has_attribute(name)
-  
-When you instantiate a Mapricot::Base object, you can pass it a string of xml:
-  class MapMe < Mapricot::Base
-  end
-  
-  MapMe.new :xml => "<some_stuff>...</some_stuff>"
-
-Or a url:
-  
-  MapMe.new :url => "http://some_url"
-
-== Examples
+== Example Usage
 
 ==== Super Simple
   require 'mapricot'
@@ -110,6 +94,22 @@ Or a url:
   # => Skiing for 2 years
   # => Hiking for 3 years
   
+== Usage, TODO: fix this garbage
+
+Your classes should inherit from Mapricot::Base, which provides the class methods 
+* has_one(name, type, opts = {})
+* has_many(name, type, opts = {})
+* has_attribute(name)
+  
+When you instantiate a Mapricot::Base object, you can pass it a string of xml:
+  class MapMe < Mapricot::Base
+  end
+  
+  MapMe.new :xml => "<some_stuff>...</some_stuff>"
+
+Or a url:
+  
+  MapMe.new :url => "http://some_url"
   
 == Credits
 
