@@ -39,9 +39,9 @@ module Mapricot
       end
     end
 
-    # class SomeClass < Mapricot::Base; end;
-    # SomeClass.new :url => "http://some_url"
-    # SomeClass.new :xml => %(<hi></hi>)
+    # class Foo < Mapricot::Base; end;
+    # Foo.new :url => "http://www.example.com"
+    # Foo.new :xml => %(<hi></hi>)
     # the class instance variable @association_list is duplicated in every instance of Feed, as the instance variable @associations.
     # i.e. Feed.association_list is the template for feed.associations
     def initialize(opts)
