@@ -30,7 +30,7 @@ class TestResponse < Test::Unit::TestCase
   def test_response
     @parsers.each do |parser|
       Mapricot.parser = parser
-      response = Response.new(:xml => @xml)
+      response = Response.new(@xml)
       assert_equal  "New York",     response.location.city
       assert_equal  "NY",           response.location.state
       assert_equal  "nyc",          response.location.code

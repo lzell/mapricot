@@ -18,7 +18,7 @@ class TestReponseWithOneId < Test::Unit::TestCase
   def test_response
     @parsers.each do |parser|
       Mapricot.parser = parser
-      response = ResponseWithOneId.new(:xml => @xml)
+      response = ResponseWithOneId.new(@xml)
       assert_equal  10,     response.id
     end
   end

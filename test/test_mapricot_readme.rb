@@ -21,7 +21,7 @@ class TestSimpleUser < Test::Unit::TestCase
       </user>
     )
     
-    @user = SimpleUser.new(:xml => xml)
+    @user = SimpleUser.new(xml)
   end
   
   def test_mapping
@@ -77,7 +77,7 @@ class TestUser < Test::Unit::TestCase
       </user>
     )
     
-    @user = User.new(:xml => xml)
+    @user = User.new(xml)
   end
   
   def test_id_and_name

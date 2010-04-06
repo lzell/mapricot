@@ -5,52 +5,94 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'maprico
 # Please look at test_mapricot_readme.rb first!!
 # !!!!!!!!!!!!!!!!!!
 
+# Add test to parse uri, I'll use Natural Inputs as the example: 
+module NI
+  class NaturalInputsResponse < Mapricot::Base
+    has_one   :message
+    has_many  :occurrences, :xml
+  end
+
+  class Occurrence < Mapricot::Base
+    has_one   :type
+    has_one   :start_date
+    has_one   :end_date
+    has_one   :start_time
+    has_one   :end_time
+    has_one   :day_of_week
+    has_one   :week_of_month,   :integer
+    has_one   :date_of_month,   :integer
+    has_one   :interval,        :integer
+  end
+end
+
+class TestNI < Test::Unit::TestCase
+
+  def setup
+    query = "go to the park tomorrow at 10am"
+    now = Time.local(2010, 'Apr', 6)
+    @url = "http://naturalinputs.com/query?q=#{URI.escape(query)}&t=#{now.strftime("%Y%m%dT%H%M%S")}"
+  end
+
+  def test_url_parsing
+    require 'open-uri'
+
+    [:hpricot, :nokogiri, :libxml].each do |parser|
+      Mapricot.parser = parser
+      response = NI::NaturalInputsResponse.new(open(@url))
+      assert_equal "go to the park", response.message
+      assert_equal "20100407",  response.occurrences.first.start_date
+      assert_equal "10:00:00",  response.occurrences.first.start_time
+    end
+  end
+end
+
+
+
 class FeedA < Mapricot::Base
-  has_one :bar
+  has_one :name
 end
 
 class TestFeedA < Test::Unit::TestCase
   
-  def test_no_bar
-    feeda = FeedA.new(:xml => "<no></no>")
-    assert feeda.bar.nil?
+  def test_no_name
+    feeda = FeedA.new("<notag></notag>")
+    assert feeda.name.nil?
   end
   
-  def test_empty_bar
-    feeda = FeedA.new(:xml => "<bar></bar>")
-    assert feeda.bar.empty?
+  def test_empty_name
+    feeda = FeedA.new("<name></name>")
+    assert feeda.name.empty?
   end
   
-  def test_full_bar
-    @feed = FeedA.new(:xml => "<bar>is full</bar>")
-    assert_equal "is full", @feed.bar
+  def test_full_name
+    @feed = FeedA.new("<name>Lou</name>")
+    assert_equal "Lou", @feed.name
   end
 end
-
-
 
 
 class FeedB < Mapricot::Base
-  has_many :bars
+  has_many :names
 end
 
 class TestFeedB < Test::Unit::TestCase
-  def test_many_empty_bars
-    feedb = FeedB.new(:xml => "<notag></notag>")
-    assert feedb.bars.is_a?(Array)
-    assert feedb.bars.empty?
+  def test_many_empty_names
+    feedb = FeedB.new("<notag></notag>")
+    assert feedb.names.is_a?(Array)
+    assert feedb.names.empty?
   end
   
-  def test_full_bars
-    feedb = FeedB.new(:xml => %(
+  def test_full_names
+    xml = %(
       <response>
-        <bar>wet</bar>
-        <bar>full</bar>
+        <name>Lou</name>
+        <name>Pizza the Hut</name>
       </response>
-    ))
+    )
+    feedb = FeedB.new(xml)
     
-    assert_equal "wet", feedb.bars.first
-    assert_equal "full", feedb.bars.last
+    assert_equal "Lou", feedb.names.first
+    assert_equal "Pizza the Hut", feedb.names.last
   end
 end
 
@@ -67,12 +109,12 @@ end
 
 class TestFeedC < Test::Unit::TestCase
   def test_many_empty_bars
-    feedc = FeedC.new(:xml => "<no></no>")
+    feedc = FeedC.new("<no></no>")
     assert feedc.bars.empty?
   end
   
   def test_many_bars
-    feedc = FeedC.new(:xml => %(
+    feedc = FeedC.new(%(
       <response>
         <bar>
           <name>maroon saloon</name>
@@ -87,3 +129,7 @@ class TestFeedC < Test::Unit::TestCase
     assert_equal ['brett', 'chris', 'garon', 'mitch'], feedc.bars.first.patrons
   end
 end
+
+
+
+

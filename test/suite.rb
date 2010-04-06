@@ -10,7 +10,7 @@ test_glob = File.join(path, "**", "test_*.rb")
 tests = Dir.glob(test_glob)
 
 if ARGV[0] != 'rg'
-  tests.each {|test| system("ruby #{test}")}
+  tests.each {|test| system("ruby -rubygems #{test}")}
 else
   tests.each {|test| system("rg #{test}")}
 end

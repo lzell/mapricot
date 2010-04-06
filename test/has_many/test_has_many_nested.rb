@@ -32,7 +32,7 @@ class TestResponseWithNesting < Test::Unit::TestCase
   def test_response
     @parsers.each do |parser|
       Mapricot.parser = parser
-      response = ResponseWithNesting.new(:xml => @xml)
+      response = ResponseWithNesting.new(@xml)
       assert_equal  10,       response.users[0].id
       assert_equal  "bob",    response.users[0].name
       assert_equal  20,       response.users[1].id
@@ -48,7 +48,7 @@ class TestResponseWithNesting < Test::Unit::TestCase
 
   
   def test_response_internals
-    response = ResponseWithNesting.new(:xml => @xml)
+    response = ResponseWithNesting.new(@xml)
     template = response.class.association_list.first
 
     assert_equal  :users,     template.name
@@ -64,7 +64,7 @@ class TestResponseWithNesting < Test::Unit::TestCase
   end
   
   def test_response_users_internals
-    response = ResponseWithNesting.new(:xml => @xml)
+    response = ResponseWithNesting.new(@xml)
     template = response.users.first.class.association_list.first
     assert_equal  :id,        template.name
     assert_equal  :integer,   template.type

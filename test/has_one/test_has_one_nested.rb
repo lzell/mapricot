@@ -24,7 +24,7 @@ class TestReponseWithNesting < Test::Unit::TestCase
   def test_response
     @parsers.each do |parser|
       Mapricot.parser = parser
-      response = ResponseWithNesting.new(:xml => @xml)
+      response = ResponseWithNesting.new(@xml)
       assert_equal  "bob",     response.user.name
     end
   end

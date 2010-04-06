@@ -23,7 +23,7 @@ class TestResponseWithManyIds < Test::Unit::TestCase
   def test_response
     @parsers.each do |parser|
       Mapricot.parser = parser
-      response = ResponseWithManyIds.new(:xml => @xml)
+      response = ResponseWithManyIds.new(@xml)
       assert_equal  10,     response.ids[0]
       assert_equal  20,     response.ids[1]
       assert_equal  30,     response.ids[2]
@@ -39,7 +39,7 @@ class TestResponseWithManyIds < Test::Unit::TestCase
   
   
   def test_internals
-    response = ResponseWithManyIds.new(:xml => @xml)
+    response = ResponseWithManyIds.new(@xml)
     template = response.class.association_list.first
     assert_equal  :ids,       template.name
     assert_equal  :integer,   template.type
