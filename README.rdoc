@@ -106,6 +106,12 @@ If you want to parse xml from a url, do something like this:
   Foo.new(open(url))
   
 
+== Changing the xml library
+  
+  Mapricot.parser = :hpricot
+  Mapricot.parser = :nokogiri
+  Mapricot.parser = :libxml
+
 == Other stuff
 
 Your classes should inherit from Mapricot::Base, which provides the class methods 
