@@ -68,7 +68,7 @@ module Mapricot
         @value = nil
       else
         if @type == :xml
-         @value = class_from_name.new(:xml => node_list.first.to_s)
+         @value = class_from_name.new(node_list.first.to_s)
         else
           @value = node_list.first.contents
           typecast
@@ -88,7 +88,7 @@ module Mapricot
       @value = []
       node_list.each do |node|
         if @type == :xml
-          @value << class_from_name.new(:xml => node.to_s)
+          @value << class_from_name.new(node.to_s)
         else
           @value << node.contents
         end

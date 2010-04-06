@@ -1,4 +1,3 @@
-require 'open-uri'
 require 'hpricot'
 require 'libxml'
 require 'nokogiri'
@@ -13,30 +12,9 @@ module Mapricot
 
   class AbstractDoc
 
-    def self.from_url(url)
-      adoc = new
-      adoc.url = url
-      adoc
-    end
-
-    def self.from_string(string)
-      adoc = new
-      adoc.string = string
-      adoc
-    end
-
-    def url=(url)
+    def initialize(string)
       if Mapricot.parser == :libxml
-        @udoc = LibXML::XML::Parser.file(url).parse
-      elsif Mapricot.parser == :hpricot
-        @udoc = Hpricot::XML(open(url))
-      elsif Mapricot.parser == :nokogiri
-        @udoc = Nokogiri::HTML(open(url))
-      end
-    end
-
-    def string=(string)
-      if Mapricot.parser == :libxml
+        string = string.read if string.is_a?(StringIO)
         @udoc = LibXML::XML::Parser.string(string).parse
       elsif Mapricot.parser == :hpricot
         @udoc = Hpricot::XML(string)

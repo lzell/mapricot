@@ -44,12 +44,25 @@ module Mapricot
     # Foo.new :xml => %(<hi></hi>)
     # the class instance variable @association_list is duplicated in every instance of Feed, as the instance variable @associations.
     # i.e. Feed.association_list is the template for feed.associations
-    def initialize(opts)
-      @doc = AbstractDoc.from_url(opts[:url])     if opts[:url]
-      @doc = AbstractDoc.from_string(opts[:xml])  if opts[:xml]
+    def initialize(str)
+      @doc = AbstractDoc.new(correct_input_for_legacy_interface(str))
       dup_associations_and_attributes
       map_associations
       map_attributes
+    end
+
+    private
+
+    def correct_input_for_legacy_interface(opts)
+      return opts if !opts.is_a?(Hash)
+
+      $stderr.puts "Initializing with a hash is deprecated, please pass a String or StringIO, see http://github.com/lzell/mapricot for examples."
+      if opts[:url]
+        require 'open-uri'
+        open(opts[:url])
+      else
+        opts[:xml]
+      end
     end
     
     def dup_associations_and_attributes
