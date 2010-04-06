@@ -28,7 +28,7 @@ sudo gem install mapricot
     has_many  :pets,  :string
   end
 
-  user = User.new(:xml => simple_xml)
+  user = User.new(simple_xml)
   puts user.id                # => 1
   puts user.id.class          # => Fixnum
   puts user.name              # => Bob
@@ -78,7 +78,7 @@ sudo gem install mapricot
     has_one :number_of_years, :integer
   end
 
-  user = User.new(:xml => xml)
+  user = User.new(xml)
   puts user.name            # => Sally
   puts user.pets.inspect    # => []
   puts user.location.class  # => Location
@@ -93,23 +93,30 @@ sudo gem install mapricot
   end
   # => Skiing for 2 years
   # => Hiking for 3 years
+
+== Parsing from a URL
+
+If you want to parse xml from a url, do something like this: 
+
+  require 'open-uri'
+
+  Foo < Mapricot::Base
+  ...
+  end
+
+  url = 'http://www.example.com'
+  Foo.new(open(url))
   
-== Usage, TODO: fix this garbage
+
+== Other stuff
 
 Your classes should inherit from Mapricot::Base, which provides the class methods 
 * has_one(name, type, opts = {})
 * has_many(name, type, opts = {})
 * has_attribute(name)
-  
-When you instantiate a Mapricot::Base object, you can pass it a string of xml:
-  class MapMe < Mapricot::Base
-  end
-  
-  MapMe.new :xml => "<some_stuff>...</some_stuff>"
 
-Or a url:
-  
-  MapMe.new :url => "http://some_url"
+
+
   
 
 Copyright (c) 2010 Lou Zell, released under the MIT license
