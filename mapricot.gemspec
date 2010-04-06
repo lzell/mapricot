@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name     = "mapricot"
-  s.version  = "0.0.4"
+  s.version  = "0.0.5"
   s.summary  = "XML to object mapper"
   s.email    = "lzell11@gmail.com"
   s.homepage = "http://github.com/lzell/mapricot"
@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rdoc_options = ["--main", "README.rdoc", "--title", "Mapricot"]
   s.extra_rdoc_files = ["README.rdoc"]
-  s.add_dependency("hpricot")
-  s.add_dependency("nokogiri")
-  s.add_dependency("libxml-ruby")
+  s.add_dependency("hpricot", ">= 0.7")
+  s.add_dependency("nokogiri", ">= 1.4.1")
+  s.add_dependency("libxml-ruby", ">= 1.1.3")
 end
