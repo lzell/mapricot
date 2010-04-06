@@ -111,9 +111,5 @@ Or a url:
   
   MapMe.new :url => "http://some_url"
   
-== Credits
 
-Named after why the luck stiff's Hpricot, which made this possible.
-
-
-Copyright (c) 2009 Lou Zell, released under the MIT license
+Copyright (c) 2010 Lou Zell, released under the MIT license
